@@ -384,7 +384,7 @@ input{-webkit-user-select:text;user-select:text}
     lbNow();stats.lbE=stats.lbE||[];
     const up=(n,a,sc,me)=>{const e=stats.lbE.find(x=>x.n===n);if(e){if(sc>e.sc)e.sc=sc}else stats.lbE.push({n,a,sc,me})};
     up('You','🙂',score,1);if(opp)up(opp.name,opp.av,botScore(),0);
-    sv('ls_stats',stats);
+    sv('ls_stats',stats);mpSendLB();
   }
   function hud(){
     $('score').textContent=score;$('time').textContent=fmt(secs);$('moves').textContent=moves;
@@ -651,6 +651,17 @@ input{-webkit-user-select:text;user-select:text}
   // ---------- Live room: room code, real friend, same deal, same time (PeerJS) ----------
   const RC='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const myName=()=>prefs.name||'Player';
+  const VER='2026.11.01';
+  function mpSendLB(){mpSend({t:'lb',e:(stats.lbE||[]).map(x=>({n:x.me?myName():x.n,a:x.a,sc:x.sc}))})}
+  function lbMerge(list){
+    lbNow();stats.lbE=stats.lbE||[];
+    (list||[]).forEach(x=>{
+      if(!x||!x.n||x.n==='You'||x.n===myName())return;
+      const e=stats.lbE.find(y=>y.n===x.n);
+      if(e){if(x.sc>e.sc)e.sc=x.sc}else stats.lbE.push({n:x.n,a:x.a||'🧑',sc:+x.sc||0,me:0});
+    });
+    sv('ls_stats',stats);
+  }
   const roomMsg=t=>{$('roomMsg').textContent=t};
   function mpSend(o){try{if(mp&&mp.conn&&mp.conn.open)mp.conn.send(o)}catch(e){}}
   function mpPeerErr(e){roomMsg(e&&e.type==='unavailable-id'?'Code busy hai, dobara Create dabao':e&&e.type==='peer-unavailable'?'Room nahi mila. Check karo: code sahi hai? dost abhi Create room screen par hai? (App background mein gayi toh room band ho jata hai.)':'Connect nahi hua ('+(e&&e.type||'error')+'). Ye page live play block kar sakta hai: HTML file ko Chrome mein kholo ya apni site par rakho.')}
@@ -687,12 +698,13 @@ input{-webkit-user-select:text;user-select:text}
   function mpSetup(c){
     mp.conn=c;c.on('data',mpData);
     c.on('close',()=>{if(mpLive&&!won){won=true;timerOn=false;$('last20').style.display='none';toast('Dost disconnect ho gaya');showVS(true)}});
-    mpSend({t:'hello',name:myName()});roomMsg('Connected! Game shuru ho raha hai...');
+    mpSend({t:'hello',name:myName(),ver:VER});mpSendLB();roomMsg('Connected! Game shuru ho raha hai...');
   }
   function mpData(m){
     if(!m||!mp)return;
-    if(m.t==='hello'){mp.oppName=m.name||'Friend';if(mp.host){const seed=Math.floor(1000+Math.random()*9000);mpSend({t:'start',seed,name:myName()});beginMp(seed)}}
-    else if(m.t==='start'){mp.oppName=m.name||'Friend';beginMp(m.seed)}
+    if(m.t==='lb'){lbMerge(m.e)}
+    else if(m.t==='hello'){if(m.ver!==VER){roomMsg('Dono ke game ka version alag hai ('+(m.ver||'purana')+' vs '+VER+'). Dono page refresh karo ya cache clear karo.');return}mp.oppName=m.name||'Friend';if(mp.host){const seed=Math.floor(1000+Math.random()*9000);mpSend({t:'start',seed,ver:VER,name:myName()});beginMp(seed)}}
+    else if(m.t==='start'){if(m.ver!==VER){roomMsg('Version alag hai, dono page refresh karo ya cache clear karo.');return}mp.oppName=m.name||'Friend';beginMp(m.seed)}
     else if(!mpLive)return;
     else if(m.t==='p'){botF=[...m.f,0,0];botCount=m.f.reduce((a,b)=>a+b,0);mpScore=m.sc;hud()}
     else if(m.t==='done'&&!won){mpScore=m.sc;won=true;timerOn=false;$('last20').style.display='none';sfx('lose');stats.botL=(stats.botL||0)+1;sv('ls_stats',stats);showVS(false)}
@@ -1228,6 +1240,8 @@ input{-webkit-user-select:text;user-select:text}
   $('homePlay').onclick=()=>{$('home').style.display='none';if(pendingCh){const m=pendingCh;pendingCh=null;startFriend(m)}else startArena(botMs)};
   $('vsChal').onclick=shareChallenge;
   $('chGo').onclick=()=>{const m=parseChal($('chIn').value);if(!m){toast('Sahi challenge link/code paste karo');return}startFriend(m)};
+  if(!prefs.name){prefs.name='Player'+Math.floor(100+Math.random()*900);sv('ls_prefs',prefs)}
+  document.querySelector('.htag').textContent+=' • v'+VER;
   $('nameIn').value=prefs.name||'';$('nameIn').onchange=()=>{prefs.name=$('nameIn').value.replace(/[^A-Za-z0-9]/g,'').slice(0,12);sv('ls_prefs',prefs)};
   $('hLb').onclick=showLB;
   $('hMenu').onclick=()=>{menuRefresh();$('menu').style.display='grid'};
