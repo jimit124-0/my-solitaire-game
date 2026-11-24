@@ -243,6 +243,11 @@ input{-webkit-user-select:text;user-select:text}
 .l20h{font-size:15px;color:#ffe85c}.l20t{font-size:56px;line-height:1.1}.l20s{font-size:14px;opacity:.95}
 #chIn,#nameIn{width:150px;padding:9px;border-radius:10px;border:1px solid #bcd;font-size:13px;text-align:center}
 #chBanner{background:#0b2c30aa;padding:8px 14px;border-radius:12px;margin-top:0}
+#last20{inset:auto!important;right:8px;bottom:132px;width:auto;background:none!important;pointer-events:none}
+.l20box{position:static!important;transform:none!important;padding:8px 12px!important;border-radius:12px!important;border:2px solid #ffe85c;min-width:124px}
+.l20h{font-size:11px!important}.l20t{font-size:34px!important}.l20s{font-size:11px!important}
+#room .mrow:has(#rIn),#room .mrow:has(#rCreate),#rIn,#rJoin,#rCreate{display:none!important}
+#room{display:none!important}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
@@ -288,13 +293,13 @@ input{-webkit-user-select:text;user-select:text}
   <div class="overlay" id="room" style="z-index:112"><div class="vsbox" style="padding-bottom:20px">
     <div class="srt">Play with a friend (live)</div>
     <div class="mrow" style="margin-top:14px"><button class="gbtn" id="rCreate" style="font-size:18px;padding:10px 26px;margin:0">Create room</button></div>
-    <div class="srn" id="rCode" style="font-size:46px;letter-spacing:7px"></div>
+    
     <div class="mrow"><input id="rIn" maxlength="5" placeholder="CODE" style="text-transform:uppercase;width:110px;padding:10px;border-radius:10px;border:0;text-align:center;font-size:18px"><button class="gbtn" id="rJoin" style="font-size:18px;padding:10px 26px;margin:0">Join</button></div>
-    <div class="vsmeta" id="roomMsg" style="min-height:34px"></div>
-    <div class="mrow"><button id="rShare" style="padding:9px 16px;border:0;border-radius:10px;background:#0b6f7a;color:#fff">Share code</button><button id="rClose" style="padding:9px 16px;border:0;border-radius:10px;background:#0b2c30;color:#fff">Close</button></div>
+    
+    
   </div></div>
 
-  <div id="last20" style="display:none"><div class="l20box"><div class="l20h">⏱ Opponent's last chance</div><div class="l20t" id="l20t">20</div><div class="l20s" id="l20s"></div></div></div>
+  <div id="last20" style="display:none"><div class="l20box"><div class="l20h">⏱ Final 20s: khelte raho</div><div class="l20t" id="l20t">20</div><div class="l20s" id="l20s"></div></div></div>
 
   <div class="overlay" id="home" style="display:grid"><div class="hbox">
     <div class="hlogo">SOLITAIRE<span class="l2">LIVE</span></div>
@@ -302,8 +307,9 @@ input{-webkit-user-select:text;user-select:text}
     <div class="htag" id="chBanner" style="display:none"></div>
     <button class="gbtn" id="homePlay">Play</button>
     <button class="gbtn" id="hRoom" style="font-size:18px;padding:10px 30px;margin-top:0;background:linear-gradient(#ff7ac8,#e02a94)">👥 Play with friend (live)</button>
-    <div class="hbtns" style="margin-top:0"><input id="hCode" maxlength="5" placeholder="CODE" style="text-transform:uppercase;width:96px;padding:10px;border-radius:10px;border:0;text-align:center;font-size:17px;letter-spacing:2px"><button id="hCodeGo">🎯 Play friend's game</button></div>
-    <div class="hbtns"><button id="hLb">🏆 Leaderboard</button><button id="hMenu">☰ Settings</button></div>
+    <div id="roomInline" style="display:none;background:#0b2c30aa;border-radius:14px;padding:8px 14px;width:min(86vw,320px)"><div class="srn" id="rCode" style="font-size:46px;letter-spacing:7px"></div><div class="vsmeta" id="roomMsg" style="min-height:34px"></div><div class="mrow"><button id="rWa" style="padding:9px 16px;border:0;border-radius:10px;background:#1faa59;color:#fff;font-weight:800">WhatsApp par bhejo</button><button id="rShare" style="padding:9px 16px;border:0;border-radius:10px;background:#0b6f7a;color:#fff">Copy / Share</button><button id="rClose" style="padding:9px 16px;border:0;border-radius:10px;background:#0b2c30;color:#fff">Cancel</button></div></div>
+    <div class="hbtns" style="margin-top:0"><input id="hCode" maxlength="5" placeholder="FRIEND CODE" style="text-transform:uppercase;width:130px;padding:10px;border-radius:10px;border:0;text-align:center;font-size:17px;letter-spacing:2px"><button id="hCodeGo">▶ Join with code</button></div>
+    <div class="hbtns"><button id="hLb">🏆 Leaderboard</button><button id="hMenu">⚙ Settings</button></div>
   </div></div>
 
   <div class="overlay" id="srch" style="z-index:115"><div class="vsbox" style="padding-bottom:26px">
@@ -322,7 +328,8 @@ input{-webkit-user-select:text;user-select:text}
     <div class="vsmeta" id="vsMeta"></div>
     <div class="vsmeta" id="vsCode" style="font-size:16px;color:#fff35c;letter-spacing:1px"></div>
     <div class="lbbar"><span>Today's Best<br>Score:</span><b id="vsLb">0</b></div>
-    <button class="gbtn" id="vsNext">Next</button>
+    <button class="gbtn" id="vsNext">Play Again</button>
+    <button class="gbtn" id="vsHome" style="font-size:16px;padding:9px 30px;margin-top:8px;background:#0b6f7a">🏠 Home</button>
     <button class="gbtn" id="vsChal" style="font-size:15px;padding:9px 24px;margin-top:8px;background:linear-gradient(#ff7ac8,#e02a94)">📨 Challenge a friend</button>
     <button class="gbtn" id="vsRematch" style="display:none;font-size:18px;padding:9px 30px;margin-top:8px;background:linear-gradient(#ffd34d,#ff9f1a)">🔁 Rematch</button>
   </div></div>
@@ -337,10 +344,16 @@ input{-webkit-user-select:text;user-select:text}
   </div></div>
 
   <div class="overlay" id="menu"><div class="modal">
-    <h2>Menu</h2>
+    <h2>Settings</h2>
+    <div class="mlab">SOUND</div>
+    <div class="mrow" id="mSnd"><button data-v="1">🔊 On</button><button data-v="0">🔇 Off</button></div>
+    <div class="mlab">CARD PICKER (stock & waste)</div><div class="mrow" id="mHand"><button data-v="left">⬅ Left</button><button data-v="right">Right ➡</button></div>
+    <button id="mClose">Close</button>
+    <div id="menuOld" style="display:none">
+    
     <div class="mrow"><button id="mNew">🎮 New Match</button><button id="mLb">🏆 Leaderboard</button><button id="mRoom">👥 Live with friend</button></div>
     
-    <div class="mlab">CARD PICKER (stock & waste)</div><div class="mrow" id="mHand"><button data-v="left">⬅ Left</button><button data-v="right">Right ➡</button></div>
+    
     <div class="mlab">THEME</div><div class="mrow" id="mTheme"></div>
     <div class="mlab">CARD BACK</div><div class="mrow" id="mBack"></div>
     <div class="mlab">OPPONENT LEVEL (starts a new match)</div>
@@ -353,10 +366,8 @@ input{-webkit-user-select:text;user-select:text}
     <div class="mrow"><input id="nameIn" maxlength="12" placeholder="Name"></div>
     <div class="mlab">SHARED LEADERBOARD URL (optional)</div>
     <div class="mrow"><input id="fbIn" placeholder="https://xxxx-default-rtdb.firebaseio.com" style="width:240px;padding:9px;border-radius:10px;border:1px solid #bcd;font-size:12px;text-align:center"></div>
-    <div class="mlab">SOUND</div>
-    <div class="mrow" id="mSnd"><button data-v="1">🔊 On</button><button data-v="0">🔇 Off</button></div>
-    <div class="mlab">STATS</div><p id="mStats"></p>
-    <button id="mClose">Close</button>
+    
+    <div class="mlab">STATS</div><p id="mStats"></p></div>
   </div></div>
 
   <div class="overlay" id="overlay">
@@ -398,7 +409,7 @@ input{-webkit-user-select:text;user-select:text}
     sv('ls_stats',stats);mpSendLB();
   }
   function hud(){
-    $('score').textContent=score;$('time').textContent=fmt(secs);$('moves').textContent=moves;
+    $('score').textContent=p4(score);$('time').textContent=fmt(secs);$('moves').textContent=moves;
     $('streak').textContent=stats.streak;
     $('modeLabel').textContent=arena&&opp?'Live vs '+opp.name+' • '+fmt(secs)+' • '+moves+' moves':(daily?'Daily':pp?'Player '+pp.round:'Classic')+' • Draw '+drawN;
     document.querySelector('.header').classList.toggle('live',!!arena);updOpp();
@@ -419,7 +430,7 @@ input{-webkit-user-select:text;user-select:text}
     document.body.style.background=t[1];$('home').style.background=$('game').style.background;$('game').className='cb'+prefs.back;
   }
   function onWin(){
-    won=true;const bonus=bonusFor(secs);lastBonus=bonus;score+=bonus;stats.ft=(stats.ft||[]).concat(secs).slice(-5);
+    won=true;const bonus=bonusFor(secs);lastBonus=bonus;score+=bonus;score=Math.min(22000,Math.max(15000,score));stats.ft=(stats.ft||[]).concat(secs).slice(-5);
     stats.wins++;stats.streak++;stats.bestStreak=Math.max(stats.bestStreak,stats.streak);
     stats.best=Math.max(stats.best,score);stats.bestTime=stats.bestTime?Math.min(stats.bestTime,secs):secs;
     if(daily)stats.daily[today()]=score;
@@ -468,10 +479,10 @@ input{-webkit-user-select:text;user-select:text}
       let moved=false;
       for(let i=0;i<7&&!moved;i++){
         const col=cols[i],c=tp(col);
-        if(c&&f[c.s]===c.r){col.pop();f[c.s]++;sc+=10;if(col.length){if(!tp(col).face)sc+=5;tp(col).face=true}moved=true}
+        if(c&&f[c.s]===c.r){col.pop();f[c.s]++;sc+=300;if(col.length){if(!tp(col).face)sc+=100;tp(col).face=true}moved=true}
       }
       const w=tp(wst);
-      if(!moved&&w&&f[w.s]===w.r){wst.pop();f[w.s]++;sc+=10;moved=true}
+      if(!moved&&w&&f[w.s]===w.r){wst.pop();f[w.s]++;sc+=300;moved=true}
       for(let i=0;i<7&&!moved;i++){
         const col=cols[i];
         for(let k=0;k<col.length&&!moved;k++){
@@ -481,19 +492,19 @@ input{-webkit-user-select:text;user-select:text}
           for(let j=0;j<7;j++){
             if(j!==i&&fits(col[k],tp(cols[j]))){
               const run=col.splice(k);cols[j].push(...run);
-              if(col.length){if(!tp(col).face)sc+=5;tp(col).face=true}moved=true;break;
+              if(col.length){if(!tp(col).face)sc+=100;tp(col).face=true}moved=true;break;
             }
           }
         }
       }
       if(!moved&&w){
-        for(let j=0;j<7;j++)if(fits(w,tp(cols[j]))){cols[j].push(wst.pop());sc+=5;moved=true;break}
+        for(let j=0;j<7;j++)if(fits(w,tp(cols[j]))){cols[j].push(wst.pop());sc+=100;moved=true;break}
       }
       if(rec)rec.push([...f,sc,moved?0:1]);
       if(f.every(n=>n===13))return true;
       if(moved){idle=0;continue}
-      if(stk.length){for(let i=0;i<dn&&stk.length;i++){const c=stk.pop();c.face=true;wst.push(c)}sc=Math.max(0,sc-1);idle++}
-      else if(wst.length){stk=wst.reverse();wst=[];sc=Math.max(0,sc-5);idle++}
+      if(stk.length){for(let i=0;i<dn&&stk.length;i++){const c=stk.pop();c.face=true;wst.push(c)}sc=Math.max(0,sc-10);idle++}
+      else if(wst.length){stk=wst.reverse();wst=[];sc=Math.max(0,sc-100);idle++}
       if(idle>60)return false;
     }
     return false;
@@ -562,11 +573,12 @@ input{-webkit-user-select:text;user-select:text}
   }
 
   // ---------- Arena (vs bot) & 2-player ----------
+  let mpDoneSent=false,mpLocked=false,mpDeadline=0,mpFinalSent=false,mpFinalOpp=null,mpOppLocked=false,mpTick=null,mpResolved=false;
   let botBase=2500,botFinal=null,keepIv=null,mpLive=false,mpScore=0,mp=null,friendSc=null,pendingCh=null,botSc=0,botT=0,botStarted=false,ending=false,botF=[0,0,0,0],opp=null,arena=null,botMs=1300,botTimer=null,botPlan=[],botCount=0,botIdx=0,pp=null,curSeed=0,modalAction=()=>startArena(botMs);
   const humanDelay=()=>{
     
     let d=botBase*(0.55+Math.random()*0.9);
-    if(Math.random()<.12)d+=botBase*(2+Math.random()*3); // sometimes stops to think
+    if(Math.random()<.08)d+=botBase*(2+Math.random()*3); // sometimes stops to think
     return d;
   };
   function botStepNow(){
@@ -597,19 +609,20 @@ input{-webkit-user-select:text;user-select:text}
   }
   const NAMES=['Margo','Adeline','Roxana','Meera','Aarav','Zoya','Kabir','Nina','Dev','Sara','Ishaan','Leena'],AVS=['😎','🦊','🐼','🤠','🦁','🐯','👩‍🚀','🧑‍🎤'];
   const pick=a=>a[Math.floor(Math.random()*a.length)];
-  const bonusFor=t=>Math.min(1500,Math.round(60000/Math.max(60,t)));
-  const botScore=()=>mpLive?mpScore:friendSc!=null?friendSc:botFinal!=null?botFinal:botSc+(botCount>=52?bonusFor(botT):0);
+  const p4=n=>String(Math.max(0,Math.round(n)));
+  const bonusFor=()=>0;
+  const botScore=()=>mpLive?mpScore:friendSc!=null?friendSc:(botCount>=52?Math.min(22000,Math.max(15000,botSc)):botSc);
   function showVS(meWon){
     $('overlay').style.display='none';
-    if(!mpLive&&friendSc==null){const m=15+Math.floor(Math.random()*75);botFinal=meWon?Math.max(0,score-m):score+m}
-    $('vsWho').textContent=meWon?myName():opp.name;
-    $('avL').innerHTML=`<span class="rx">${meWon?'😜':'😭'}</span>🙂`;
-    $('avR').innerHTML=`<span class="rx">${meWon?'😭':'😜'}</span>${opp.av}`;
+    
+    const dr=meWon===null;$('vsWho').textContent=dr?'🤝 Draw':meWon?myName():opp.name;
+    $('avL').innerHTML=`<span class="rx">${dr?'🤝':meWon?'😜':'😭'}</span>🙂`;
+    $('avR').innerHTML=`<span class="rx">${dr?'🤝':meWon?'😭':'😜'}</span>${opp.av}`;
     $('nmL').textContent=myName();$('nmR').textContent=opp.name;
-    $('scL').textContent=score;$('scR').textContent=botScore();
+    $('scL').textContent=p4(score);$('scR').textContent=p4(botScore());
     $('vsMeta').textContent=`⏱ ${fmt(secs)} • ${moves} moves • Cards home ${homeCount()}/52`;$('vsCode').textContent='Challenge code: '+chalCode();
-    lbRec();if(score>(stats.lb||0)){stats.lb=score;stats.lbMv=moves}stats.bm=Math.max(stats.bm||0,score);sv('ls_stats',stats);fbPush();$('vsLb').textContent=stats.lb.toLocaleString();
-    const rb=$('vsRematch');rb.disabled=false;rb.textContent='🔁 Rematch';rb.style.display=(mpLive&&mp&&mp.conn&&mp.conn.open)?'':'none';
+    lbRec();if(score>(stats.lb||0)){stats.lb=score;stats.lbMv=moves}stats.bm=Math.max(stats.bm||0,score);sv('ls_stats',stats);fbPush();$('vsLb').textContent=p4(stats.lb);
+    const rb=$('vsRematch');rb.disabled=false;rb.textContent='🔁 Rematch';rb.style.display=(mpLive&&mp&&mp.conn&&mp.conn.open)?'':'none';$('vsNext').style.display=mpLive?'none':'';
     $('vs').style.display='grid';
   }
   function showLB(noSync){
@@ -620,7 +633,7 @@ input{-webkit-user-select:text;user-select:text}
     $('lbRows').innerHTML=!P.length?'<div class="lbr"><div class="ln" style="text-align:center;font-size:16px">Aaj abhi koi match nahi khela.<br>Match khelo, score yahan dikhega.</div></div>':idx.map(i=>{
       if(i<0)return '<div class="dots"></div>';
       const p=P[i],r=i+1;
-      return `<div class="lbr${r===1?' top':''}${p.me?' me':''}"><div class="lc"><small>Rank</small><b>${r}</b></div><i class="av lg">${p.a}</i><div class="ln">${r===1?'👑 ':''}${p.me?myName()+' (You)':p.n}</div><div class="lc r"><small>Score</small><b>${p.sc.toLocaleString()}</b></div></div>`;
+      return `<div class="lbr${r===1?' top':''}${p.me?' me':''}"><div class="lc"><small>Rank</small><b>${r}</b></div><i class="av lg">${p.a}</i><div class="ln">${r===1?'👑 ':''}${p.me?myName()+' (You)':p.n}</div><div class="lc r"><small>Score</small><b>${p4(p.sc)}</b></div></div>`;
     }).join('');
     const t=new Date(),m=new Date(t);m.setHours(24,0,0,0);const ms=m-t;
     $('lbT').textContent=Math.floor(ms/36e5)+'h '+Math.floor(ms%36e5/6e4)+'m';
@@ -630,14 +643,14 @@ input{-webkit-user-select:text;user-select:text}
   function updOpp(){
     const of=$('oppF');if(!of||!arena||!opp)return;
     of.innerHTML=[0,1,2,3].map(x=>botF[x]?`<div class="slot ofoundation">${miniCard(x,botF[x]-1)}</div>`:`<div class="slot ofoundation empty" data-suit="${SUITS[x]}"></div>`).join('');
-    $('sbox').innerHTML=`<div class="sbr"><div class="tx"><div class="nm">${opp.name}</div><b>${botScore()}</b></div><i class="av">${opp.av}</i></div><div class="sbr"><div class="tx"><b>${score}</b><div class="nm">${myName()}</div></div><i class="av" style="background:linear-gradient(#9be7ff,#7aa0ff)">🙂</i></div>`;
+    $('sbox').innerHTML=`<div class="sbr"><div class="tx"><div class="nm">${opp.name}</div><b>${p4(botScore())}</b></div><i class="av">${opp.av}</i></div><div class="sbr"><div class="tx"><b>${p4(score)}</b><div class="nm">${myName()}</div></div><i class="av" style="background:linear-gradient(#9be7ff,#7aa0ff)">🙂</i></div>`;
   }
   function setBotPace(){
-    const lv=botMs>=2000?1.25:botMs>=1300?1:.8;
-    const ft=stats.ft||[],avg=ft.length?ft.reduce((a,b)=>a+b,0)/ft.length:330;
-    const target=Math.min(900,Math.max(100,avg*lv))*1000*(0.9+Math.random()*0.2);
+    const lv=botMs>=2000?1:botMs>=1300?.8:.65;
+    const ft=stats.ft||[],avg=ft.length?ft.reduce((a,b)=>a+b,0)/ft.length:200;
+    const target=Math.min(600,Math.max(70,avg*lv))*1000*(0.9+Math.random()*0.2);
     const W=botPlan.reduce((a,e)=>a+(e[5]===1?.45:1),0)||1;
-    botBase=Math.max(400,target/(W*1.42));
+    botBase=Math.max(250,target/(W*1.28));
   }
   function startArena(ms){
     if(!prefs.name){gate();return}
@@ -689,17 +702,17 @@ input{-webkit-user-select:text;user-select:text}
   // End Game in a live match: opponent keeps playing at human pace for 20s
   function endMatch(){
     if(ending||won)return;
-    if(mpLive){ending=true;mpSend({t:'end',sc:score});mpCountdown(true);return}
+    if(mpLive){ending=true;mpPlayerFinished(false);return}
     if(friendSc!=null){won=true;timerOn=false;sfx(score>=friendSc?'win':'lose');showVS(score>=friendSc);return}
     ending=true;clearTimeout(botTimer);clearInterval(botTimer);
     let left=20,stop=false,lt=null;$('last20').style.display='block';
-    const upd=()=>{$('l20t').textContent=left;$('l20s').textContent=`${opp.name} ${botScore()}  •  You ${score}`};upd();
+    const upd=()=>{$('l20t').textContent=left;$('l20s').textContent=`${opp.name} ${p4(botScore())}  •  You ${p4(score)}`};upd();
     const loop=()=>{if(stop)return;botStepNow();hud();upd();if(botCount>=52)return;lt=setTimeout(loop,nextDelay())};
     lt=setTimeout(loop,nextDelay());
     const tm=setInterval(()=>{
       left--;upd();
       if(left>0&&botCount<52)return;
-      stop=true;clearTimeout(lt);clearInterval(tm);ending=false;won=true;timerOn=false;
+      stop=true;clearTimeout(lt);clearInterval(tm);ending=false;if(won){$('last20').style.display='none';return}won=true;timerOn=false;
       $('last20').style.display='none';
       const meWon=score>=botScore();
       if(meWon){sfx('win');stats.botW=(stats.botW||0)+1;stats.stars=(stats.stars||0)+1}else{sfx('lose');stats.botL=(stats.botL||0)+1}
@@ -709,12 +722,12 @@ input{-webkit-user-select:text;user-select:text}
   // ---------- Live room: room code, real friend, same deal, same time (PeerJS) ----------
   const RC='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const myName=()=>prefs.name||'Player';
-  const VER='2026.11.02';
+  const VER='2026.11.25';
   const FB_URL='';
   const fbBase=()=>(FB_URL||prefs.fb||'').trim().replace(/[/]+$/,'');
   async function fbPush(){
     const b=fbBase();if(!b||!prefs.name)return;
-    try{await fetch(`${b}/lb/${today()}/${encodeURIComponent(prefs.name)}.json`,{method:'PUT',body:JSON.stringify({sc:Math.min(2000,stats.lb||0),mv:stats.lbMv||0,t:Date.now()})})}catch(e){}
+    try{await fetch(`${b}/lb/${today()}/${encodeURIComponent(prefs.name)}.json`,{method:'PUT',body:JSON.stringify({sc:Math.min(30000,stats.lb||0),mv:stats.lbMv||0,t:Date.now()})})}catch(e){}
   }
   async function fbSync(){
     const b=fbBase();if(!b)return;
@@ -722,7 +735,7 @@ input{-webkit-user-select:text;user-select:text}
       const r=await fetch(`${b}/lb/${today()}.json`);const o=await r.json();if(!o)return;
       lbNow();stats.lbE=stats.lbE||[];
       Object.keys(o).forEach(n=>{
-        const sc=+((o[n]||{}).sc)||0;if(sc>2000)return;
+        const sc=+((o[n]||{}).sc)||0;if(sc>30000)return;
         if(n===prefs.name){const me=stats.lbE.find(y=>y.me);if(me){if(sc>me.sc)me.sc=sc}else stats.lbE.push({n:'You',a:'🙂',sc,me:1});return}
         const e=stats.lbE.find(y=>y.n===n);
         if(e){if(sc>e.sc)e.sc=sc}else stats.lbE.push({n,a:'🧑',sc,me:0,r:1});
@@ -734,7 +747,7 @@ input{-webkit-user-select:text;user-select:text}
   function lbMerge(list){
     lbNow();stats.lbE=stats.lbE||[];
     (list||[]).forEach(x=>{
-      if(!x||!x.n||x.n==='You'||x.n===myName()||!(x.sc<=2000))return;
+      if(!x||!x.n||x.n==='You'||x.n===myName()||!(x.sc<=30000))return;
       const e=stats.lbE.find(y=>y.n===x.n);
       if(e){if(x.sc>e.sc)e.sc=x.sc}else stats.lbE.push({n:x.n,a:x.a||'🧑',sc:+x.sc||0,me:0,r:1});
     });
@@ -746,7 +759,7 @@ input{-webkit-user-select:text;user-select:text}
   function createRoom(){
     if(!window.Peer){roomMsg('Live play ke liye internet chahiye (PeerJS load nahi hua)');return}
     if(mp){try{mp.peer.destroy()}catch(e){}}
-    const code=Array.from({length:5},()=>RC[Math.floor(Math.random()*RC.length)]).join('');
+    const code=Array.from({length:4},()=>RC[Math.floor(Math.random()*RC.length)]).join('');
     const peer=new Peer('slive-'+code);mp={peer,host:true,code,conn:null,oppName:'Friend'};
     peer.on('open',()=>{$('rCode').textContent=code;roomMsg('Dost ko ye code bhejo. Dost ke Join karne tak is screen ko khula rakho.');try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}});
     peer.on('disconnected',()=>{try{peer.reconnect()}catch(e){}});
@@ -775,7 +788,7 @@ input{-webkit-user-select:text;user-select:text}
   }
   function mpSetup(c){
     mp.conn=c;c.on('data',mpData);
-    c.on('close',()=>{if(mpLive&&!won){won=true;timerOn=false;$('last20').style.display='none';toast('Dost disconnect ho gaya');showVS(true)}});
+    c.on('close',()=>{if(mpLive&&!mpResolved){mpResolved=true;clearInterval(mpTick);mpTick=null;won=true;timerOn=false;$('last20').style.display='none';toast('Dost disconnect ho gaya');showVS(true)}});
     mpSend({t:'hello',name:myName(),ver:VER});mpSendLB();roomMsg('Connected! Game shuru ho raha hai...');
   }
   function mpData(m){
@@ -786,8 +799,8 @@ input{-webkit-user-select:text;user-select:text}
     else if(m.t==='rm'){mp.rmTheirs=true;toast('Dost rematch chahta hai');rmCheck()}
     else if(!mpLive)return;
     else if(m.t==='p'){botF=[...m.f,0,0];botCount=m.f.reduce((a,b)=>a+b,0);mpScore=m.sc;hud()}
-    else if(m.t==='done'&&!won){mpScore=m.sc;won=true;timerOn=false;$('last20').style.display='none';sfx('lose');stats.botL=(stats.botL||0)+1;sv('ls_stats',stats);showVS(false)}
-    else if(m.t==='end'&&!won&&!ending){mpCountdown(false)}
+    else if(m.t==='done'){mpScore=Number(m.sc)||0;mpOppLocked=!!m.lock;if(!mpDeadline)mpDeadline=Date.now()+Math.min(20000,Math.max(1000,Number(m.remaining)||20000));mpStartWindow();mpTryResolve();hud()}
+    else if(m.t==='final'){mpFinalOpp=Number(m.sc)||0;mpScore=mpFinalOpp;mpTryResolve()}
   }
   function rmCheck(){
     if(mp&&mp.host&&mp.rmMine&&mp.rmTheirs){const seed=Math.floor(1000+Math.random()*9000);mpSend({t:'start',seed,ver:VER,name:myName()});beginMp(seed)}
@@ -799,22 +812,41 @@ input{-webkit-user-select:text;user-select:text}
     $('srN').textContent=n;$('srOpp').textContent='🧑';$('srName').textContent=mp.oppName;$('srch').style.display='grid';
     const iv=setInterval(()=>{n--;if(n>0){$('srN').textContent=n;return}clearInterval(iv);$('srN').textContent='GO!';setTimeout(()=>{$('srch').style.display='none'},500)},1000);
   }
-  function mpCountdown(ender){
-    let left=20;const el=$('last20');el.style.display='block';el.style.pointerEvents=ender?'auto':'none';
-    el.querySelector('.l20h').textContent=ender?'⏱ Dost ka last chance':'⏱ Dost ne End Game kiya, beat karo!';
-    const upd=()=>{$('l20t').textContent=left;$('l20s').textContent=`${mp?mp.oppName:'Friend'} ${mpScore}  •  You ${score}`};upd();
-    const tm=setInterval(()=>{
-      left--;upd();
-      if(won){clearInterval(tm);return}
-      if(left>0)return;
-      clearInterval(tm);finishMp(ender);
-    },1000);
+  // Live finish: first finisher starts ONE shared 20s deadline. Both keep playing (unless board is complete),
+  // at the deadline both send their final score, higher score wins, equal = draw.
+  function mpPlayerFinished(locked){
+    if(!mpLive||!mp||mpDoneSent)return;
+    mpDoneSent=true;mpLocked=!!locked;if(locked){won=true;timerOn=false}
+    if(!mpDeadline)mpDeadline=Date.now()+20000;
+    mpSend({t:'done',sc:score,lock:locked?1:0,remaining:Math.max(0,mpDeadline-Date.now())||20000});
+    mpStartWindow();mpTryResolve();
   }
-  function finishMp(ender){
-    $('last20').style.display='none';if(won)return;
-    won=true;timerOn=false;ending=false;
-    const meWon=ender?score>mpScore:score>=mpScore;
-    sfx(meWon?'win':'lose');const k=meWon?'botW':'botL';stats[k]=(stats[k]||0)+1;sv('ls_stats',stats);showVS(meWon);
+  function mpStartWindow(){
+    if(mpTick||mpResolved||!mpDeadline)return;
+    const el=$('last20');el.style.display='block';el.style.pointerEvents='none';
+    const upd=()=>{
+      const left=Math.max(0,Math.ceil((mpDeadline-Date.now())/1000));
+      el.querySelector('.l20h').textContent=mpLocked?'⏱ Aapka game poora! Dost ka wait':'⏱ Final 20s: khelte raho, zyada score jeetega';
+      $('l20t').textContent=left;$('l20s').textContent=`${mp?mp.oppName:'Friend'} ${p4(mpScore)}  •  You ${p4(score)}`;return left};
+    upd();
+    mpTick=setInterval(()=>{
+      if(mpResolved){clearInterval(mpTick);mpTick=null;return}
+      if(upd()>0||mpFinalSent)return;
+      mpFinalSent=true;won=true;timerOn=false;ending=false;
+      mpSend({t:'final',sc:score});mpTryResolve();
+    },200);
+  }
+  function mpTryResolve(){
+    if(!mpLive||mpResolved)return;
+    const bothLocked=mpLocked&&mpOppLocked;
+    if(!(bothLocked||(mpFinalSent&&mpFinalOpp!==null)))return;
+    mpResolved=true;clearInterval(mpTick);mpTick=null;won=true;timerOn=false;ending=false;
+    $('last20').style.display='none';
+    const opp2=bothLocked&&mpFinalOpp===null?mpScore:mpFinalOpp;mpScore=opp2;
+    const draw=score===opp2,meWon=score>opp2;
+    sfx(draw?'found':meWon?'win':'lose');
+    if(!draw){const k=meWon?'botW':'botL';stats[k]=(stats[k]||0)+1;if(meWon)stats.stars=(stats.stars||0)+1}
+    sv('ls_stats',stats);showVS(draw?null:meWon);
   }
   function shareRoom(){
     const code=mp&&mp.code;if(!code||!mp.host){roomMsg('Pehle Create room dabao');return}
@@ -830,8 +862,8 @@ input{-webkit-user-select:text;user-select:text}
     const c=(t||'').trim().toUpperCase();return c.length===5?decodeChal(c):null;
   };
   // short 5-letter challenge code = deal number + score (no server needed)
-  const chalCode=()=>{let n=(curSeed-1000)*2048+Math.min(2047,Math.max(0,score)),c='';for(let i=0;i<5;i++){c=RC[n%32]+c;n=Math.floor(n/32)}return c};
-  const decodeChal=c=>{let n=0;for(const ch of c){const v=RC.indexOf(ch);if(v<0)return null;n=n*32+v}const seed=Math.floor(n/2048)+1000;return seed>9999?null:[c,seed,n%2048,'Friend']};
+  const chalCode=()=>{let n=(curSeed-1000)*2048+Math.min(2047,Math.max(0,Math.round(score/20))),c='';for(let i=0;i<5;i++){c=RC[n%32]+c;n=Math.floor(n/32)}return c};
+  const decodeChal=c=>{let n=0;for(const ch of c){const v=RC.indexOf(ch);if(v<0)return null;n=n*32+v}const seed=Math.floor(n/2048)+1000;return seed>9999?null:[c,seed,(n%2048)*20,'Friend']};
   function startFriend(m){
     ['home','menu','vs','lbs'].forEach(i=>$(i).style.display='none');
     newGame({bot:1300,seed:+m[1],fsc:+m[2],opp:{name:m[3],av:'🧑'}});
@@ -848,8 +880,10 @@ input{-webkit-user-select:text;user-select:text}
   function afterWin(){
     if(pp){finishTurn();return}
     if(arena){
-      clearInterval(botTimer);stats.botW=(stats.botW||0)+1;sv('ls_stats',stats);
-      if(mpLive)mpSend({t:'done',sc:score});showVS(mpLive||friendSc==null||score>=friendSc);return;
+      clearInterval(botTimer);
+      if(mpLive){mpPlayerFinished(true);return}
+      stats.botW=(stats.botW||0)+1;sv('ls_stats',stats);
+      showVS(mpLive||friendSc==null||score>=friendSc);return;
     }
     $('modalText').innerHTML=resultHTML();
   }
@@ -893,7 +927,7 @@ input{-webkit-user-select:text;user-select:text}
     const deck=[];
     columns=Array.from({length:7},()=>[]);
     foundations=[[],[],[],[]];stock=[];waste=[];history=[];selected=null;score=0;magic=2;moveAnim=null;
-    moves=0;secs=0;timerOn=false;won=false;lastBonus=0;autoFinishing=false;botPlan=[];$('modalClose').style.display='none';botCount=0;botIdx=0;botF=[0,0,0,0];ending=false;botSc=0;botT=0;botStarted=false;botFinal=null;
+    moves=0;secs=0;timerOn=false;won=false;lastBonus=0;autoFinishing=false;botPlan=[];$('modalClose').style.display='none';botCount=0;botIdx=0;botF=[0,0,0,0];ending=false;botSc=0;botT=0;botStarted=false;botFinal=null;clearInterval(mpTick);mpDoneSent=false;mpLocked=false;mpDeadline=0;mpFinalSent=false;mpFinalOpp=null;mpOppLocked=false;mpResolved=false;
     for(let s=0;s<4;s++)for(let r=0;r<13;r++)deck.push(makeCard(s,r,false));
     let cols,stk,tries=0;
     do{
@@ -917,7 +951,7 @@ input{-webkit-user-select:text;user-select:text}
 
   function render(initial=false){const prev=prevRects||captureRects();prevRects=null;render2(initial);flip(prev,initial);hud();snd(initial);if(mpLive&&!initial)mpSend({t:'p',f:foundations.map(x=>x.length),sc:score})}
   function render2(initial=false){
-    $('score').textContent=score;$('magic').textContent=magic;$('streak').textContent=streak;
+    $('score').textContent=p4(score);$('magic').textContent=magic;$('streak').textContent=streak;
     renderTop();
     const tb=$('tableau');tb.innerHTML='';
     columns.forEach((col,ci)=>{
@@ -974,22 +1008,22 @@ input{-webkit-user-select:text;user-select:text}
       save();
       const ids=[];
       for(let i=0;i<drawN&&stock.length;i++){const c=stock.pop();c.face=true;waste.push(c);ids.push(c.id)}
-      score=Math.max(0,score-1);
+      score=Math.max(0,score-10);
       moveAnim={ids};sfxKind='draw';render();toast(drawN>1?'Drew '+ids.length+' cards':'Card drawn');
     }else if(waste.length){
       save();
       stock=waste.reverse().map(c=>({...c,face:false}));waste=[];
-      score=Math.max(0,score-5);render();toast('Deck recycled');
+      score=Math.max(0,score-100);render();toast('Deck recycled');
     }else toast('No cards left');
   }
 
   function wasteToFoundation(){
     const c=top(waste);if(!c||!canFoundation(c,c.s))return false;
-    save();waste.pop();foundations[c.s].push(c);score+=10;render();checkWin();return true;
+    save();waste.pop();foundations[c.s].push(c);score+=300;render();checkWin();return true;
   }
   function wasteToCol(to){
     const c=top(waste);if(!c||!canTableau(c,top(columns[to])))return false;
-    save();waste.pop();columns[to].push(c);score+=5;render();return true;
+    save();waste.pop();columns[to].push(c);score+=100;render();return true;
   }
   function playWaste(){
     const c=top(waste);if(!c)return;
@@ -1008,12 +1042,12 @@ input{-webkit-user-select:text;user-select:text}
     save();
     c.pop();
     foundations[card.s].push(card);
-    score+=10;
+    score+=300;
 
     // Reveal the next card in the same column immediately.
     if(c.length && !top(c).face){
       top(c).face=true;
-      score+=5;
+      score+=100;
     }
 
     moveAnim={ids:[card.id]};
@@ -1055,11 +1089,11 @@ input{-webkit-user-select:text;user-select:text}
         if(card && card.face && canFoundation(card,card.s)){
           col.pop();
           foundations[card.s].push(card);
-          score+=10;
+          score+=300;
 
           if(col.length && !top(col).face){
             top(col).face=true;
-            score+=5;
+            score+=100;
           }
 
           moveAnim={ids:[card.id]};
@@ -1149,7 +1183,7 @@ input{-webkit-user-select:text;user-select:text}
     save();
     const moving=src.splice(idx);
     dst.push(...moving);
-    if(src.length&&!top(src).face){top(src).face=true;score+=5}
+    if(src.length&&!top(src).face){top(src).face=true;score+=100}
     
     selected=null;render();
     setTimeout(checkWin,45);
@@ -1293,9 +1327,9 @@ input{-webkit-user-select:text;user-select:text}
   document.querySelectorAll('#mBot button').forEach(b=>b.onclick=()=>{$('menu').style.display='none';startArena(+b.dataset.v)});
   $('mPP').onclick=()=>{$('menu').style.display='none';newGame({pp:true});toast('Player 1 — khelo! Khatam hone par End Game dabao')};
   document.querySelectorAll('#mSnd button').forEach(b=>b.onclick=()=>{prefs.sound=+b.dataset.v;sv('ls_prefs',prefs);menuRefresh();sfx('found')});
-  document.querySelectorAll('#mHand button').forEach(b=>b.onclick=()=>{prefs.hand=b.dataset.v;sv('ls_prefs',prefs);menuRefresh();render();toast(b.dataset.v==='left'?'Card picker: left side':'Card picker: right side')});
+  document.querySelectorAll('#mHand button').forEach(b=>b.onclick=()=>{prefs.hand=b.dataset.v;sv('ls_prefs',prefs);menuRefresh();if(typeof foundations!=='undefined'&&foundations)render();toast(b.dataset.v==='left'?'Card picker: left side':'Card picker: right side')});
   $('mLb').onclick=()=>{$('menu').style.display='none';showLB()};
-  $('vsNext').onclick=()=>{$('vs').style.display='none';showLB()};
+  $('vsNext').onclick=()=>{$('vs').style.display='none';startArena(botMs)};
   $('lbX').onclick=()=>{$('lbs').style.display='none'};
   $('lbNew').onclick=()=>{$('lbs').style.display='none';startArena(botMs)};
   $('mClose').onclick=()=>{$('menu').style.display='none'};
@@ -1311,12 +1345,15 @@ input{-webkit-user-select:text;user-select:text}
   ['contextmenu','selectstart','dragstart'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.tagName!=='INPUT')e.preventDefault()}));
   $('modalBtn').onclick=()=>{$('overlay').style.display='none';modalAction()};
 
-  const openRoom=()=>{$('menu').style.display='none';$('rCode').textContent='';roomMsg('Room banao ya dost ka code daalo');$('room').style.display='grid'};
-  $('hRoom').onclick=openRoom;$('mRoom').onclick=openRoom;
-  $('rCreate').onclick=createRoom;$('rJoin').onclick=()=>joinRoom($('rIn').value);$('rShare').onclick=shareRoom;
-  $('rClose').onclick=()=>{clearInterval(keepIv);$('room').style.display='none';if(mp&&!mpLive){try{mp.peer.destroy()}catch(e){}mp=null}};
+  const openRoom=()=>{$('menu').style.display='none';$('rCode').textContent='';roomMsg('Room ban raha hai...');$('roomInline').style.display='block'};
+  $('hRoom').onclick=()=>{openRoom();createRoom()};$('mRoom').onclick=()=>{openRoom();createRoom()};
+  $('rCreate').onclick=createRoom;$('rJoin').onclick=()=>joinRoom($('rIn').value);$('rShare').onclick=shareRoom;$('rWa').onclick=()=>{const code=mp&&mp.code;if(!code||!mp.host){roomMsg('Code ban raha hai, 2 sec ruko');return}window.open('https://wa.me/?text='+encodeURIComponent(`🃏 Solitaire Live: chalo mere saath khelo! Link kholo, game khud judega (code ${code}):\n${location.href.split('#')[0]}#r-${code}`),'_blank')};
+  $('rClose').onclick=()=>{clearInterval(keepIv);$('roomInline').style.display='none';$('rCode').textContent='';if(mp&&!mpLive){try{mp.peer.destroy()}catch(e){}mp=null}};
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&mp&&mp.peer&&mp.peer.disconnected&&!mp.peer.destroyed){try{mp.peer.reconnect()}catch(e){}}});
-  $('hCodeGo').onclick=()=>{const m=parseChal($('hCode').value);if(!m){toast('Sahi 5 akshar ka code daalo');return}startFriend(m)};
+  $('hCodeGo').onclick=()=>{
+    const v=($('hCode').value||'').trim().toUpperCase();
+    if(v.length===4){openRoom();$('rIn').value=v;joinRoom(v);return}
+    const m=parseChal(v);if(!m){toast('Dost ka code daalo (4 akshar)');return}startFriend(m)};
   const m0=parseChal(location.hash);
   if(m0){pendingCh=m0;$('chBanner').style.display='block';$('chBanner').textContent=`🧑 ${m0[3]} ne challenge diya — score ${m0[2]}. Play dabao!`}
   $('homePlay').onclick=()=>{$('home').style.display='none';if(pendingCh){const m=pendingCh;pendingCh=null;startFriend(m)}else startArena(botMs)};
@@ -1328,8 +1365,17 @@ input{-webkit-user-select:text;user-select:text}
     if(v.length<2){$('ngMsg').textContent='Kam se kam 2 akshar/number daalo (sirf A-Z, 0-9)';return}
     prefs.name=v;sv('ls_prefs',prefs);$('nameIn').value=v;$('nameGate').style.display='none';runPendingRoom();
   };
-  let pendingRoom=(/#r-([A-Z2-9]{5})/.exec(location.hash)||[])[1]||null;
+  let pendingRoom=(/#r-([A-Z2-9]{4})/.exec(location.hash)||[])[1]||null;
   function runPendingRoom(){if(pendingRoom&&prefs.name){const c=pendingRoom;pendingRoom=null;openRoom();$('rIn').value=c;joinRoom(c)}}
+  function goHome(){
+    clearTimeout(botTimer);clearInterval(botTimer);clearInterval(keepIv);
+    if(mp){try{mp.peer.destroy()}catch(e){}mp=null}
+    mpLive=false;ending=false;won=true;timerOn=false;
+    ['vs','lbs','srch','last20','menu','overlay'].forEach(i=>$(i).style.display='none');
+    $('rCode').textContent='';roomMsg('');$('roomInline').style.display='none';
+    $('home').style.display='grid';
+  }
+  $('vsHome').onclick=goHome;
   $('vsRematch').onclick=()=>{if(!mp||!mp.conn)return;mp.rmMine=true;mpSend({t:'rm'});$('vsRematch').disabled=true;$('vsRematch').textContent='Dost ka wait...';rmCheck()};
   if(!prefs.name)gate();else setTimeout(runPendingRoom,300);
   $('fbIn').value=prefs.fb||'';$('fbIn').onchange=()=>{prefs.fb=$('fbIn').value.trim();sv('ls_prefs',prefs);toast('Leaderboard URL save ho gaya')};
