@@ -307,8 +307,21 @@ input{-webkit-user-select:text;user-select:text}
     <div class="htag" id="chBanner" style="display:none"></div>
     <button class="gbtn" id="homePlay">Play</button>
     <button class="gbtn" id="hRoom" style="font-size:18px;padding:10px 30px;margin-top:0;background:linear-gradient(#ff7ac8,#e02a94)">👥 Play with friend (live)</button>
-    <div id="roomInline" style="display:none;background:#0b2c30aa;border-radius:14px;padding:8px 14px;width:min(86vw,320px)"><div class="srn" id="rCode" style="font-size:46px;letter-spacing:7px"></div><div class="vsmeta" id="roomMsg" style="min-height:34px"></div><div class="mrow"><button id="rWa" style="padding:9px 16px;border:0;border-radius:10px;background:#1faa59;color:#fff;font-weight:800">WhatsApp par bhejo</button><button id="rShare" style="padding:9px 16px;border:0;border-radius:10px;background:#0b6f7a;color:#fff">Copy / Share</button><button id="rClose" style="padding:9px 16px;border:0;border-radius:10px;background:#0b2c30;color:#fff">Cancel</button></div></div>
-    <div class="hbtns" style="margin-top:0"><input id="hCode" maxlength="5" placeholder="FRIEND CODE" style="text-transform:uppercase;width:130px;padding:10px;border-radius:10px;border:0;text-align:center;font-size:17px;letter-spacing:2px"><button id="hCodeGo">▶ Join with code</button></div>
+    <div id="fp" style="display:none;background:#0b2c30cc;border-radius:16px;padding:14px;width:min(88vw,330px);text-align:center">
+      <div id="fpChoose">
+        <button class="gbtn" id="fpMake" style="font-size:18px;padding:11px 24px;margin:0;width:100%">➕ Room banao</button>
+        <div class="vsmeta" style="margin:10px 0 6px">ya dost ka code daalo</div>
+        <div class="hbtns" style="justify-content:center"><input id="hCode" maxlength="5" placeholder="CODE" style="text-transform:uppercase;width:120px;padding:10px;border-radius:10px;border:0;text-align:center;font-size:20px;letter-spacing:3px"><button id="hCodeGo">▶ Join</button></div>
+        <button id="fpBack" style="margin-top:10px;padding:11px 18px;border:0;border-radius:12px;color:#fff;font-weight:800;font-size:16px;font-family:inherit;background:#0b2c30">← Wapas</button>
+      </div>
+      <div id="roomInline" style="display:none">
+        <div class="vsmeta" id="rTitle" style="font-size:15px"></div>
+        <div class="srn" id="rCode" style="font-size:52px;letter-spacing:8px;margin:4px 0"></div>
+        <div class="vsmeta" id="roomMsg" style="min-height:40px;font-size:15px"></div>
+        <div class="mrow" id="rShareRow"><button id="rWa" style="padding:11px 18px;border:0;border-radius:12px;color:#fff;font-weight:800;font-size:16px;font-family:inherit;background:#1faa59">WhatsApp par bhejo</button><button id="rShare" style="padding:11px 18px;border:0;border-radius:12px;color:#fff;font-weight:800;font-size:16px;font-family:inherit;background:#0b6f7a">Copy / Share</button></div>
+        <div class="mrow"><button id="rClose" style="padding:11px 18px;border:0;border-radius:12px;color:#fff;font-weight:800;font-size:16px;font-family:inherit;background:#0b2c30">Cancel</button></div>
+      </div>
+    </div>
     <div class="hbtns"><button id="hLb">🏆 Leaderboard</button><button id="hMenu">⚙ Settings</button></div>
   </div></div>
 
@@ -722,7 +735,7 @@ input{-webkit-user-select:text;user-select:text}
   // ---------- Live room: room code, real friend, same deal, same time (PeerJS) ----------
   const RC='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const myName=()=>prefs.name||'Player';
-  const VER='2026.11.25';
+  const VER='2026.11.26';
   const FB_URL='';
   const fbBase=()=>(FB_URL||prefs.fb||'').trim().replace(/[/]+$/,'');
   async function fbPush(){
@@ -753,7 +766,7 @@ input{-webkit-user-select:text;user-select:text}
     });
     sv('ls_stats',stats);
   }
-  const roomMsg=t=>{$('roomMsg').textContent=t};
+  const roomMsg=t=>{const e=$('roomMsg');e.textContent=t;e.style.color=/^✅/.test(t)?'#7dff9b':'';e.style.fontWeight=/^✅/.test(t)?'800':''};
   function mpSend(o){try{if(mp&&mp.conn&&mp.conn.open)mp.conn.send(o)}catch(e){}}
   function mpPeerErr(e){roomMsg(e&&e.type==='unavailable-id'?'Code busy hai, dobara Create dabao':e&&e.type==='peer-unavailable'?'Room nahi mila. Check karo: code sahi hai? dost abhi Create room screen par hai? (App background mein gayi toh room band ho jata hai.)':'Connect nahi hua ('+(e&&e.type||'error')+'). Ye page live play block kar sakta hai: HTML file ko Chrome mein kholo ya apni site par rakho.')}
   function createRoom(){
@@ -761,7 +774,7 @@ input{-webkit-user-select:text;user-select:text}
     if(mp){try{mp.peer.destroy()}catch(e){}}
     const code=Array.from({length:4},()=>RC[Math.floor(Math.random()*RC.length)]).join('');
     const peer=new Peer('slive-'+code);mp={peer,host:true,code,conn:null,oppName:'Friend'};
-    peer.on('open',()=>{$('rCode').textContent=code;roomMsg('Dost ko ye code bhejo. Dost ke Join karne tak is screen ko khula rakho.');try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}});
+    peer.on('open',()=>{$('rCode').textContent=code;roomMsg('⏳ Dost ko ye code bolo ya bhejo. Dost ke judne tak ye screen khuli rakho.');try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}});
     peer.on('disconnected',()=>{try{peer.reconnect()}catch(e){}});
     clearInterval(keepIv);keepIv=setInterval(()=>{if(peer.disconnected&&!peer.destroyed){try{peer.reconnect()}catch(e){}}},2000);
     peer.on('connection',c=>{c.on('open',()=>mpSetup(c))});
@@ -773,10 +786,10 @@ input{-webkit-user-select:text;user-select:text}
     if(!window.Peer){roomMsg('Live play ke liye internet chahiye (PeerJS load nahi hua)');return}
     if(mp){try{mp.peer.destroy()}catch(e){}}
     const peer=new Peer();mp={peer,host:false,code,conn:null,oppName:'Friend'};
-    roomMsg('Connect ho raha hai...');
+    $('rCode').textContent=code;roomMsg('🔎 Connect ho raha hai...');
     let tries=0;
     const go=()=>{
-      tries++;roomMsg('Room dhundh raha hai... ('+tries+'/8). Dost room screen par ruke.');
+      tries++;roomMsg('🔎 Dost ka room dhundh raha hai... ('+tries+'/8)');
       const c=peer.connect('slive-'+code,{reliable:true});
       c.on('open',()=>mpSetup(c));
     };
@@ -789,13 +802,13 @@ input{-webkit-user-select:text;user-select:text}
   function mpSetup(c){
     mp.conn=c;c.on('data',mpData);
     c.on('close',()=>{if(mpLive&&!mpResolved){mpResolved=true;clearInterval(mpTick);mpTick=null;won=true;timerOn=false;$('last20').style.display='none';toast('Dost disconnect ho gaya');showVS(true)}});
-    mpSend({t:'hello',name:myName(),ver:VER});mpSendLB();roomMsg('Connected! Game shuru ho raha hai...');
+    mpSend({t:'hello',name:myName(),ver:VER});mpSendLB();roomMsg('✅ Connected! Game shuru ho raha hai...');
   }
   function mpData(m){
     if(!m||!mp)return;
     if(m.t==='lb'){lbMerge(m.e)}
-    else if(m.t==='hello'){if(m.ver!==VER){roomMsg('Dono ke game ka version alag hai ('+(m.ver||'purana')+' vs '+VER+'). Dono page refresh karo ya cache clear karo.');return}mp.oppName=m.name||'Friend';if(mp.host){const seed=Math.floor(1000+Math.random()*9000);mpSend({t:'start',seed,ver:VER,name:myName()});beginMp(seed)}}
-    else if(m.t==='start'){if(m.ver!==VER){roomMsg('Version alag hai, dono page refresh karo ya cache clear karo.');return}mp.oppName=m.name||'Friend';beginMp(m.seed)}
+    else if(m.t==='hello'){if(m.ver!==VER){roomMsg('Dono ke game ka version alag hai ('+(m.ver||'purana')+' vs '+VER+'). Dono page refresh karo ya cache clear karo.');return}mp.oppName=m.name||'Friend';roomMsg('✅ '+mp.oppName+' connected! Game shuru ho raha hai...');if(mp.host){const seed=Math.floor(1000+Math.random()*9000);mpSend({t:'start',seed,ver:VER,name:myName()});beginMp(seed)}}
+    else if(m.t==='start'){if(m.ver!==VER){roomMsg('Version alag hai, dono page refresh karo ya cache clear karo.');return}mp.oppName=m.name||'Friend';roomMsg('✅ '+mp.oppName+' connected!');beginMp(m.seed)}
     else if(m.t==='rm'){mp.rmTheirs=true;toast('Dost rematch chahta hai');rmCheck()}
     else if(!mpLive)return;
     else if(m.t==='p'){botF=[...m.f,0,0];botCount=m.f.reduce((a,b)=>a+b,0);mpScore=m.sc;hud()}
@@ -1345,14 +1358,24 @@ input{-webkit-user-select:text;user-select:text}
   ['contextmenu','selectstart','dragstart'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.tagName!=='INPUT')e.preventDefault()}));
   $('modalBtn').onclick=()=>{$('overlay').style.display='none';modalAction()};
 
-  const openRoom=()=>{$('menu').style.display='none';$('rCode').textContent='';roomMsg('Room ban raha hai...');$('roomInline').style.display='block'};
-  $('hRoom').onclick=()=>{openRoom();createRoom()};$('mRoom').onclick=()=>{openRoom();createRoom()};
-  $('rCreate').onclick=createRoom;$('rJoin').onclick=()=>joinRoom($('rIn').value);$('rShare').onclick=shareRoom;$('rWa').onclick=()=>{const code=mp&&mp.code;if(!code||!mp.host){roomMsg('Code ban raha hai, 2 sec ruko');return}window.open('https://wa.me/?text='+encodeURIComponent(`🃏 Solitaire Live: chalo mere saath khelo! Link kholo, game khud judega (code ${code}):\n${location.href.split('#')[0]}#r-${code}`),'_blank')};
-  $('rClose').onclick=()=>{clearInterval(keepIv);$('roomInline').style.display='none';$('rCode').textContent='';if(mp&&!mpLive){try{mp.peer.destroy()}catch(e){}mp=null}};
+  const homeBtns=()=>['homePlay','hRoom'].map($).concat([...document.querySelectorAll('#home .hbtns')].filter(x=>!x.closest('#fp')));
+  const openRoom=mode=>{
+    $('menu').style.display='none';$('fp').style.display='block';homeBtns().forEach(e=>e.style.display='none');
+    if(mode==='choose'){$('fpChoose').style.display='block';$('roomInline').style.display='none';return}
+    $('fpChoose').style.display='none';$('roomInline').style.display='block';
+    const host=mode!=='join';$('rShareRow').style.display=host?'':'none';
+    $('rTitle').textContent=host?'Aapka room code':'Join kar raha hai, code:';
+    $('rCode').textContent='';roomMsg(host?'Room ban raha hai...':'🔎 Connect ho raha hai...');
+  };
+  const closeFp=()=>{$('fp').style.display='none';$('fpChoose').style.display='none';$('roomInline').style.display='none';homeBtns().forEach((e,i)=>e.style.display=i<2?'':'flex');$('rCode').textContent='';roomMsg('')};
+  $('fpMake').onclick=()=>{openRoom('host');createRoom()};$('fpBack').onclick=closeFp;
+  $('hRoom').onclick=()=>openRoom('choose');$('mRoom').onclick=()=>{openRoom('host');createRoom()};
+  $('rShare').onclick=shareRoom;$('rWa').onclick=()=>{const code=mp&&mp.code;if(!code||!mp.host){roomMsg('Code ban raha hai, 2 sec ruko');return}window.open('https://wa.me/?text='+encodeURIComponent(`🃏 Solitaire Live: chalo mere saath khelo! Link kholo, game khud judega (code ${code}):\n${location.href.split('#')[0]}#r-${code}`),'_blank')};
+  $('rClose').onclick=()=>{clearInterval(keepIv);if(mp&&!mpLive){try{mp.peer.destroy()}catch(e){}mp=null}closeFp()};
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&mp&&mp.peer&&mp.peer.disconnected&&!mp.peer.destroyed){try{mp.peer.reconnect()}catch(e){}}});
   $('hCodeGo').onclick=()=>{
     const v=($('hCode').value||'').trim().toUpperCase();
-    if(v.length===4){openRoom();$('rIn').value=v;joinRoom(v);return}
+    if(v.length===4){openRoom('join');joinRoom(v);return}
     const m=parseChal(v);if(!m){toast('Dost ka code daalo (4 akshar)');return}startFriend(m)};
   const m0=parseChal(location.hash);
   if(m0){pendingCh=m0;$('chBanner').style.display='block';$('chBanner').textContent=`🧑 ${m0[3]} ne challenge diya — score ${m0[2]}. Play dabao!`}
@@ -1366,13 +1389,13 @@ input{-webkit-user-select:text;user-select:text}
     prefs.name=v;sv('ls_prefs',prefs);$('nameIn').value=v;$('nameGate').style.display='none';runPendingRoom();
   };
   let pendingRoom=(/#r-([A-Z2-9]{4})/.exec(location.hash)||[])[1]||null;
-  function runPendingRoom(){if(pendingRoom&&prefs.name){const c=pendingRoom;pendingRoom=null;openRoom();$('rIn').value=c;joinRoom(c)}}
+  function runPendingRoom(){if(pendingRoom&&prefs.name){const c=pendingRoom;pendingRoom=null;openRoom('join');joinRoom(c)}}
   function goHome(){
     clearTimeout(botTimer);clearInterval(botTimer);clearInterval(keepIv);
     if(mp){try{mp.peer.destroy()}catch(e){}mp=null}
     mpLive=false;ending=false;won=true;timerOn=false;
     ['vs','lbs','srch','last20','menu','overlay'].forEach(i=>$(i).style.display='none');
-    $('rCode').textContent='';roomMsg('');$('roomInline').style.display='none';
+    closeFp();
     $('home').style.display='grid';
   }
   $('vsHome').onclick=goHome;
